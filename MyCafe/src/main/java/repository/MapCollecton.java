@@ -3,38 +3,33 @@ package main.java.repository;
 import main.java.model.AbstractItem;
 import java.util.*;
 
-public class MapCollecton<T extends AbstractItem> implements AbstractCollection<T>
+public class MapCollecton implements AbstractCollection
 {
-	private Map<UUID, T> map;
+	private Map<UUID, AbstractItem> map = new TreeMap<>();
 
 	@Override
-	public void add(T elem) {
-		map.	
+	public void add(AbstractItem elem) {
+		map.put(elem.getId(), elem);	
 	}
 
 	@Override
-	public void delete(T elem) {
-		// TODO Auto-generated method stub
+	public void delete(AbstractItem elem) {
+		map.remove(elem.getId());
 		
 	}
 
 	@Override
-	public T get(UUID id) {
-		// TODO Auto-generated method stub
-		return null;
+	public AbstractItem get(UUID id) {
+		return map.get(id);
 	}
 
 	@Override
-	public List<T> getALL() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<AbstractItem> getALL() {
+		return new ArrayList<>(map.values());
 	}
 
 	@Override
-	public Map<UUID, T> getMap() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
+	public Map<UUID, AbstractItem> getMap() {
+		return Collections.unmodifiableMap(map);
+	}	
 }

@@ -1,5 +1,6 @@
 package main.java.model;
 import java.util.*;
+import java.text.*;
 
 public abstract class AbstractItem {
 	protected UUID id = UUID.fromString("0");
@@ -8,6 +9,8 @@ public abstract class AbstractItem {
 	protected Date productionDate;
 	
 	protected double price;
+	
+	protected static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	
 	public AbstractItem()
 	{
@@ -35,7 +38,10 @@ public abstract class AbstractItem {
 	@Override
 	public String toString()
 	{
-		String res = String.format("ID = %s, name = %s, production date = %s, price = %.2f", id, name, productionDate, price);
+		String res = String.format("ID = %s, name = %s, production date = %s, price = %.2f", id, name, sdf.format(productionDate), price);
 		return res;
 	}
+	
+	public abstract void fromCSV(String line) throws Exception;
+	public abstract String toCSV() throws Exception;
 }

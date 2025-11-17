@@ -2,24 +2,26 @@ package main.java.repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.UUID;
 import main.java.model.*;
 
-public class ListCollection<T extends AbstractItem> implements AbstractCollection<T>
+public class ListCollection implements AbstractCollection
 {
-	private List<T> list = new ArrayList<>();
+	private List<AbstractItem> list = new ArrayList<>();
 	@Override
-	public void add(T elem) {
+	public void add(AbstractItem elem) {
 		list.add(elem);		
 	}
 
 	@Override
-	public void delete(T elem) {
+	public void delete(AbstractItem elem) {
 		list.remove(elem);		
 	}
 
 	@Override
-	public T get(UUID id) {
+	public AbstractItem get(UUID id) {
 		for (int i = 0; i < list.size(); i++)
 		{
 			if (list.get(i).getId().equals(id))
@@ -31,7 +33,14 @@ public class ListCollection<T extends AbstractItem> implements AbstractCollectio
 	}
 
 	@Override
-	public List<T> getALL() {
+	public Map<UUID, AbstractItem> getMap() {
+		Map<UUID, AbstractItem> map = new TreeMap<>();
+		for (AbstractItem item : list) map.put(item.getId(), item);
+		return map;
+	}
+	
+	@Override
+	public List<AbstractItem> getALL() {
 		return list;
 	}
 

@@ -3,11 +3,11 @@ import java.util.*;
 
 import main.java.model.AbstractItem;
 
-public interface AbstractCollection<T extends AbstractItem>
+public interface AbstractCollection
 {
-	void add(T elem);
-	void delete(T elem);
-	T get(UUID id);
-	List<T> getALL();
-	Map<UUID, T> getMap();
+	void add(AbstractItem elem);
+	void delete(AbstractItem elem);
+	AbstractItem get(UUID id);
+	List<AbstractItem> getALL();
+	Map<UUID, AbstractItem> getMap();
 }

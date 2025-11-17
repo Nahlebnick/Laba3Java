@@ -1,6 +1,6 @@
 package main.java.model;
 
-import java.util.Date;
+import java.util.*;
 
 import main.java.model.AbstractItem;
 
@@ -46,4 +46,44 @@ public class Cake extends AbstractItem
 	    		res += String.format(", type = %s, layers = %d, numbers of servings = %d, weight = %.1f", type, layers, numberOfServings, weight);
 	    		return res;
 	    }
+		@Override
+		public void fromCSV(String line) throws Exception {
+			String[] values = line.split(";");
+			
+			if (values.length != 9 || !values[0].equals("Cake") ) throw new Exception("Incorrect data format for Cake object");
+			UUID id_ = UUID.fromString(values[1]);
+			String name_ = values[2];
+			Date dt = sdf.parse(values[3]);
+			int price_ = Integer.parseInt(values[4]);
+			String type_ = values[5];
+			int layers_ = Integer.parseInt(values[6]);
+			int num = Integer.parseInt(values[7]);
+			double w = Double.parseDouble(values[8]);
+			this.setId(id_);
+			this.setName(name_);
+			this.setProductionDate(dt);
+			this.setPrice(price_);
+			this.setLayers(layers_);
+			this.setNumberOfServings(num);
+			this.setWeight(w);
+			this.setType(type_);
+			System.out.print("OK");
+		}
+		@Override
+		public String toCSV() {
+			String res = String.join(";",
+					"Cake",
+		            id.toString(),
+		            name,
+		            String.valueOf(productionDate.getTime()),
+		            String.valueOf(price),
+		            type,
+		            String.valueOf(layers),
+		            String.valueOf(numberOfServings),
+		            String.valueOf(weight)
+		        );
+			return res;
+		}
+	    
+	    
 }
