@@ -2,8 +2,6 @@ package main.java.model;
 
 import java.util.*;
 
-import main.java.model.AbstractItem;
-
 public class Cake extends AbstractItem
 {
 		private String type;
@@ -26,7 +24,7 @@ public class Cake extends AbstractItem
 	    
 	    public Cake()
 	    {
-	    		super();
+	    	super();
 	    }
 	    
 	    public Cake(String name_, Date prodDate, double price_, String type,
@@ -47,27 +45,35 @@ public class Cake extends AbstractItem
 	    		return res;
 	    }
 		@Override
-		public void fromCSV(String line) throws Exception {
+		public void fromCSV(String line) throws Exception
+		{
 			String[] values = line.split(";");
-			
-			if (values.length != 9 || !values[0].equals("Cake") ) throw new Exception("Incorrect data format for Cake object");
-			UUID id_ = UUID.fromString(values[1]);
-			String name_ = values[2];
-			Date dt = sdf.parse(values[3]);
-			int price_ = Integer.parseInt(values[4]);
-			String type_ = values[5];
-			int layers_ = Integer.parseInt(values[6]);
-			int num = Integer.parseInt(values[7]);
-			double w = Double.parseDouble(values[8]);
-			this.setId(id_);
-			this.setName(name_);
-			this.setProductionDate(dt);
-			this.setPrice(price_);
-			this.setLayers(layers_);
-			this.setNumberOfServings(num);
-			this.setWeight(w);
-			this.setType(type_);
-			System.out.print("OK");
+	        
+	        if (values.length != 9 || !values[0].equals("Cake")) {
+	            System.err.println("Error: Incorrect format. Length: " + values.length + ", Type: " + values[0]);
+	            throw new Exception("Incorrect data format for Cake object");
+	        }
+	        
+	        UUID id_ = UUID.fromString(values[1]);
+	        
+	        Date dt = sdf.parse(values[3]);
+	        
+	        double price_ = Double.parseDouble(values[4]);
+	        
+	        int layers_ = Integer.parseInt(values[6]);
+	        
+	        int num = Integer.parseInt(values[7]);
+	        
+	        double w = Double.parseDouble(values[8]);
+	        
+	        this.setId(id_);
+	        this.setName(values[2]);
+	        this.setProductionDate(dt);
+	        this.setPrice(price_);
+	        this.setLayers(layers_);
+	        this.setNumberOfServings(num);
+	        this.setWeight(w);
+	        this.setType(values[5]);  
 		}
 		@Override
 		public String toCSV() {

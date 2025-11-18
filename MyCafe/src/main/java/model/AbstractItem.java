@@ -3,7 +3,7 @@ import java.util.*;
 import java.text.*;
 
 public abstract class AbstractItem {
-	protected UUID id = UUID.fromString("0");
+	protected UUID id = UUID.randomUUID();
 	protected String name;
 	
 	protected Date productionDate;
@@ -14,7 +14,7 @@ public abstract class AbstractItem {
 	
 	public AbstractItem()
 	{
-		productionDate = new Date(); 
+		productionDate = new Date();
 	}
 	
 	public AbstractItem(String name_, Date prodDate, double price_)

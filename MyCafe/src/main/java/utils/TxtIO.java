@@ -4,18 +4,12 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TxtIO<T extends AbstractItem> implements AbstractIO<T>{
-	
-	private final Class<T> clazz;
-
-    public TxtIO(Class<T> clazz) {
-        this.clazz = clazz;
-    }
-
+public class TxtIO implements AbstractIO
+{
 	@Override
-	public List<T> readAll(String path)
+	public List<AbstractItem> readAll(String path)
 	{
-		List<T> list = new ArrayList<>();
+		List<AbstractItem> list = new ArrayList<>();
 		File inFile = new File(path);
         if (inFile.exists())
         {
@@ -24,8 +18,7 @@ public class TxtIO<T extends AbstractItem> implements AbstractIO<T>{
 	        {
 	            while ((line = br.readLine()) != null)
 	            {
-	            		T elem = clazz.getDeclaredConstructor().newInstance();
-	            		elem.fromCSV(line);
+	            		AbstractItem elem = createItemFromCSV(line);
 	            		list.add(elem);
 	            }
 	        }
@@ -36,9 +29,41 @@ public class TxtIO<T extends AbstractItem> implements AbstractIO<T>{
         }
 		return list;
 	}
+	
+	private AbstractItem createItemFromCSV(String line) {
+        try {
+            String[] values = line.split(";");
+            if (values.length == 0) return null;
+            
+            String type = values[0].trim();
+            AbstractItem item = null;
+            
+            switch (type) {
+                case "Cake":
+                    item = new Cake();
+                    break;
+                case "Pie":
+                    item = new Pie();
+                    break;
+                case "Cupcake":
+                    item = new Cupcake();
+                    break;
+                default:
+                    System.err.println("Unknown item type: " + type);
+                    return null;
+            }
+            
+            item.fromCSV(line);
+            return item;
+            
+        } catch (Exception e) {
+            System.err.println("Error parsing line: " + line + " : " + e.getMessage());
+            return null;
+        }
+    }
 
 	@Override
-	public void writeAll(String path, List<T> list) {
+	public void writeAll(String path, List<AbstractItem> list) {
 		File outFile = new File(path);
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(outFile)))
         {
