@@ -1,6 +1,8 @@
 package main.java.app;
 
+import java.io.File;
 import java.util.List;
+import java.util.UUID;
 
 import main.java.model.*;
 import main.java.repository.ListCollection;
@@ -12,6 +14,7 @@ public class AppController
 
     private ListCollection list = new ListCollection();
     private MapCollecton map = new MapCollecton();
+    private String lastPath = new String();
     
     public void listAll()
     {
@@ -22,9 +25,9 @@ public class AppController
             System.out.println("List is empty!");
     }
 
-    public void zipTxt() {
-		// TODO Auto-generated method stub
-		
+    public void zipTxt()
+    {
+				
 	}
 
     public void decryptTxt() {
@@ -47,28 +50,29 @@ public class AppController
 		
 	}
 
-    public void loadJson() {
-		// TODO Auto-generated method stub
-		
+    public void loadJson()
+    {
+				
 	}
 
-    public void saveJson() {
-		// TODO Auto-generated method stub
-		
+    public void saveJson()
+    {
+				
 	}
 
-    public void loadFromTxt(String path)
+    public void loadFromTxt(File f)
     {
     	try
     	{
     		TxtIO io = new TxtIO();
-    		List<AbstractItem> tmp = io.readAll(path);
+    		List<AbstractItem> tmp = io.readAll(f);
     		for (AbstractItem i : tmp)
     		{
     			list.add(i);
     			map.add(i);
     		}
-    		System.out.print(String.format("Successfully loaded from %s", path));
+    		lastPath = f.getAbsolutePath();
+    		System.out.print(String.format("Successfully loaded from %s", f.getAbsolutePath()));
     		
     	}
     	catch (Exception ex)
@@ -77,13 +81,14 @@ public class AppController
     	}
 	}
 
-    public void saveTxt(String path)
+    public void saveTxt(File f)
     {
     	try
     	{
     		TxtIO io = new TxtIO();
-    		io.writeAll(path, list.getALL());
-    		System.out.print(String.format("Saved in %s", path));
+    		io.writeAll(f, list.getALL());
+    		lastPath = f.getAbsolutePath();
+    		System.out.print(String.format("Saved in %s", f.getAbsoluteFile()));
     		
     	}
     	catch (Exception ex)
@@ -92,19 +97,24 @@ public class AppController
     	}		
 	}
 
-    public void sortByPrice() {
-		// TODO Auto-generated method stub
-		
+    public void sortByPrice()
+    {
+		list.sort();
+		System.out.print("Sorted");
 	}
 
-    public void delete() {
-		// TODO Auto-generated method stub
-		
+    public void delete(String IDstr)
+    {
+    	UUID id= UUID.fromString(IDstr);
+		list.delete(list.get(id));
+		map.delete(map.get(id));
+		System.out.println("Successfully deleted element with id " + IDstr);
 	}
 
     public void update()
     {
-				
+    	File f = new File(lastPath);
+    	loadFromTxt(f);		
 	}
 
     public void add(String res)

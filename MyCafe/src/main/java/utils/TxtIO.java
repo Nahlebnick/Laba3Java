@@ -7,10 +7,9 @@ import java.util.List;
 public class TxtIO implements AbstractIO
 {
 	@Override
-	public List<AbstractItem> readAll(String path)
+	public List<AbstractItem> readAll(File inFile)
 	{
 		List<AbstractItem> list = new ArrayList<>();
-		File inFile = new File(path);
         if (inFile.exists())
         {
         		String line = new String();
@@ -63,8 +62,7 @@ public class TxtIO implements AbstractIO
     }
 
 	@Override
-	public void writeAll(String path, List<AbstractItem> list) {
-		File outFile = new File(path);
+	public void writeAll(File outFile, List<AbstractItem> list) {
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(outFile)))
         {
         	
@@ -76,7 +74,7 @@ public class TxtIO implements AbstractIO
         }
         catch(Exception e)
         {
-        		System.err.println(e.getMessage());
+        	System.err.println(e.getMessage());
         }    
 		
 	};

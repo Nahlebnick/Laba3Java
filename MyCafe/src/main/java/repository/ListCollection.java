@@ -1,6 +1,7 @@
 package main.java.repository;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -16,8 +17,9 @@ public class ListCollection implements AbstractCollection
 	}
 
 	@Override
-	public void delete(AbstractItem elem) {
-		list.remove(elem);		
+	public void delete(AbstractItem elem)
+	{
+		if (elem != null) list.remove(elem);		
 	}
 
 	@Override
@@ -42,6 +44,11 @@ public class ListCollection implements AbstractCollection
 	@Override
 	public List<AbstractItem> getALL() {
 		return list;
+	}
+	
+	public void sort()
+	{
+		Collections.sort(list);
 	}
 
 }

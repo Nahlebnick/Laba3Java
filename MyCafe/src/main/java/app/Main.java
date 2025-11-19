@@ -1,14 +1,17 @@
 package main.java.app;
 
+import java.io.File;
 import java.util.Scanner;
+import main.java.utils.*;
 
 public class Main {
-
+	
 	private static Scanner sc = new Scanner(System.in);
 	
 	public static void main(String[] args) {
 		Menu menu = new Menu(sc);
 		AppController app = new AppController();
+		
 		
 		menu.setListener(value-> {
 			switch(value)
@@ -16,10 +19,10 @@ public class Main {
 				case 1: app.listAll(); break;
 				case 2: app.add(getInfoAboutCake()); break;
 				case 3: app.update(); break;
-				case 4: app.delete(); break;
+				case 4: app.delete(getID()); break;
 				case 5: app.sortByPrice(); break;
-				case 6: app.saveTxt(getPath()); break;
-				case 7: app.loadFromTxt(getPath()); break;
+				case 6: app.saveTxt(getFile(false)); break;
+				case 7: app.loadFromTxt(getFile(true)); break;
 				case 8: app.saveJson(); break;
 				case 9: app.loadJson(); break;
 				case 10: app.saveXml(); break;
@@ -46,51 +49,96 @@ public class Main {
             
             if (!what.equals("Cake") && !what.equals("Pie") && !what.equals("Cupcake"))
             {
-                System.out.println("Incorrect type! Please enter: Cake, Pie or Cupcake\n");
+                System.err.println("Incorrect type! Please enter: Cake, Pie or Cupcake\n");
                 continue;
             }
 			
-            System.out.print("ID: "); String id = sc.nextLine().trim();
-            System.out.print("Name: "); String name = sc.nextLine().trim();
-            System.out.print("Price: "); String sp = sc.nextLine().trim();
-            System.out.print("Production date: "); String dt = sc.nextLine().trim();
-            
-            
-            if (what.equals("Cake"))
+            try
             {
-            		System.out.print("Type: "); String type = sc.nextLine().trim();
-                System.out.print("Layers: "); String layers = sc.nextLine().trim();
-                System.out.print("Number of setvings: "); String numberOfServings = sc.nextLine().trim();
-                System.out.print("Weight: "); String weight = sc.nextLine().trim();
-                res = String.join(";", what, id, name, dt, sp, type, layers, numberOfServings, weight);
-                return res;
+	            System.out.print("ID: "); String id = sc.nextLine().trim();
+	            Validator.parseID(id);
+	            System.out.print("Name: "); String name = sc.nextLine().trim();
+	            Validator.isNotEmpty(name);
+	            System.out.print("Price: "); String sp = sc.nextLine().trim();
+	            Validator.parseDouble(sp, "Price");
+	            System.out.print("Production date: "); String dt = sc.nextLine().trim();
+	            Validator.parseDate(dt);
+	            
+	            
+	            if (what.equals("Cake"))
+	            {
+	            	System.out.print("Type: "); String type = sc.nextLine().trim();
+	            	Validator.isNotEmpty(type);
+	                System.out.print("Layers: "); String layers = sc.nextLine().trim();
+	                Validator.parseInteger(layers, "Layers");
+	                System.out.print("Number of setvings: "); String numberOfServings = sc.nextLine().trim();
+	                Validator.parseInteger(numberOfServings, "Number of servings");
+	                System.out.print("Weight: "); String weight = sc.nextLine().trim();
+	                Validator.parseDouble(weight, "Weight");
+	                res = String.join(";", what, id, name, dt, sp, type, layers, numberOfServings, weight);
+	                return res;
+	            }
+	            else if (what.equals("Cupcake"))
+	            {
+	            	System.out.print("Flavour: "); String flavour = sc.nextLine().trim();
+	            	Validator.isNotEmpty(flavour);
+	                System.out.print("Weight: "); String weight = sc.nextLine().trim();
+	                Validator.parseDouble(weight, "Weight");
+	                res = String.join(";", what, id, name, dt, sp, flavour, weight);
+	                return res;
+	            }
+	            else if (what.equals("Pie"))
+	            {
+	                System.out.print("Flavour: "); String flavour = sc.nextLine().trim();
+	                Validator.isNotEmpty(flavour);
+	                System.out.print("Crust type: "); String crustType = sc.nextLine().trim();
+	                Validator.isNotEmpty(crustType);
+	                res = String.join(";", what, id, name, dt, sp, flavour, crustType);
+	                return res;
+	            }
+	            else
+	            {
+	            	System.err.print("Incorrect data try again: \n");
+	            }
             }
-            else if (what.equals("Cupcake"))
+            catch (Exception e)
             {
-            	System.out.print("Flavour: "); String flavour = sc.nextLine().trim();
-                System.out.print("Weight: "); String weight = sc.nextLine().trim();
-                res = String.join(";", what, id, name, dt, sp, flavour, weight);
-                return res;
-            }
-            else if (what.equals("Pie"))
-            {
-                System.out.print("Flavour: "); String flavour = sc.nextLine().trim();
-                System.out.print("Crust type: "); String crustType = sc.nextLine().trim();
-                res = String.join(";", what, id, name, dt, sp, flavour, crustType);
-                return res;
-            }
-            else
-            {
-            	System.out.print("Incorrect data try again: \n");
+            	System.err.print(e.getMessage() + "\n");
             }
 		} 
 	}
 	
-	private static String getPath()
-	{
+	private static String getID()
+	{	
 		String res = new String();
-		System.out.print("Enter path to file: ");
-		res = sc.nextLine();
+		try {			
+			System.out.print("Enter id of the element to delete: ");
+			res = sc.nextLine();
+			Validator.parseID(res);	
+		}
+		catch (Exception e)
+		{
+			System.err.println("Error: " + e.getMessage() + ". Please try again.");
+		}
 		return res;
+		
+	}
+	private static File getFile(boolean shouldExist)
+	{
+		while (true)
+		{
+			System.out.print("Enter file path: ");
+			String path = sc.nextLine();
+			try {
+	            File file = Validator.parseFile(path, shouldExist);
+	            if (file != null) {
+	                return file;
+	            } else {
+	                System.err.println("Invalid file path. Please try again.");
+	            }
+	        } catch (Exception e) {
+	            System.err.println("Error: " + e.getMessage() + ". Please try again.");
+	        }
+		}
 	}
 }

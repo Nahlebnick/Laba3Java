@@ -2,7 +2,7 @@ package main.java.model;
 import java.util.*;
 import java.text.*;
 
-public abstract class AbstractItem {
+public abstract class AbstractItem implements Comparable<AbstractItem> {
 	protected UUID id = UUID.randomUUID();
 	protected String name;
 	
@@ -10,7 +10,7 @@ public abstract class AbstractItem {
 	
 	protected double price;
 	
-	protected static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	protected static final SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 	
 	public AbstractItem()
 	{
@@ -40,6 +40,12 @@ public abstract class AbstractItem {
 	{
 		String res = String.format("ID = %s, name = %s, production date = %s, price = %.2f", id, name, sdf.format(productionDate), price);
 		return res;
+	}
+	
+	@Override
+	public int compareTo(AbstractItem elem)
+	{
+		return Double.compare(this.price, elem.price);
 	}
 	
 	public abstract void fromCSV(String line) throws Exception;

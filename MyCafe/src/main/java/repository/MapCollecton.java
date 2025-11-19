@@ -14,7 +14,7 @@ public class MapCollecton implements AbstractCollection
 
 	@Override
 	public void delete(AbstractItem elem) {
-		map.remove(elem.getId());
+		if (elem != null) map.remove(elem.getId());
 		
 	}
 
