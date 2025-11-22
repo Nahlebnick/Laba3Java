@@ -2,9 +2,14 @@ package main.java.model;
 
 import java.util.*;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 public class Pie extends AbstractItem
 {
+	@JacksonXmlProperty(localName = "flavour")
 	private String flavour;
+	
+	@JacksonXmlProperty(localName = "crustType")
 	private String crustType;	
 	
 	// Getters/Setters

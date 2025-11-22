@@ -2,9 +2,14 @@ package main.java.model;
 
 import java.util.*;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 public class Cupcake extends AbstractItem
 {
+	@JacksonXmlProperty(localName = "flavour")
 	String flavour;
+	
+	@JacksonXmlProperty(localName = "weight")
 	double weight;
 	
 	// Getters/Setters

@@ -23,10 +23,10 @@ public class Main {
 				case 5: app.sortByPrice(); break;
 				case 6: app.saveTxt(getFile(false)); break;
 				case 7: app.loadFromTxt(getFile(true)); break;
-				case 8: app.saveJson(); break;
-				case 9: app.loadJson(); break;
-				case 10: app.saveXml(); break;
-				case 11: app.loadXml(); break;
+				case 8: app.saveJson(getFile(false)); break;
+				case 9: app.loadJson(getFile(true)); break;
+				case 10: app.saveXml(getFile(false)); break;
+				case 11: app.loadXml(getFile(true)); break;
 				case 12: app.encryptTxt(); break;
 				case 13: app.decryptTxt(); break;
 				case 14: app.zipTxt(); break;
@@ -67,15 +67,13 @@ public class Main {
 	            
 	            if (what.equals("Cake"))
 	            {
-	            	System.out.print("Type: "); String type = sc.nextLine().trim();
-	            	Validator.isNotEmpty(type);
 	                System.out.print("Layers: "); String layers = sc.nextLine().trim();
 	                Validator.parseInteger(layers, "Layers");
 	                System.out.print("Number of setvings: "); String numberOfServings = sc.nextLine().trim();
 	                Validator.parseInteger(numberOfServings, "Number of servings");
 	                System.out.print("Weight: "); String weight = sc.nextLine().trim();
 	                Validator.parseDouble(weight, "Weight");
-	                res = String.join(";", what, id, name, dt, sp, type, layers, numberOfServings, weight);
+	                res = String.join(";", what, id, name, dt, sp, layers, numberOfServings, weight);
 	                return res;
 	            }
 	            else if (what.equals("Cupcake"))

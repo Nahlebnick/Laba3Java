@@ -14,7 +14,9 @@ public class AppController
 
     private ListCollection list = new ListCollection();
     private MapCollecton map = new MapCollecton();
-    private String lastPath = new String();
+    private String lastPathTxt = new String();
+    private String lastPathJSON = new String();
+    private String lastPathXML = new String();
     
     public void listAll()
     {
@@ -40,24 +42,76 @@ public class AppController
 		
 	}
 
-    public void loadXml() {
-		// TODO Auto-generated method stub
-		
-	}
-
-    public void saveXml() {
-		// TODO Auto-generated method stub
-		
-	}
-
-    public void loadJson()
+    public void loadXml(File f)
     {
-				
+    	try
+		{
+			XMLIO io = new XMLIO();
+			List<AbstractItem> tmp = io.readAll(f);
+			for (AbstractItem i : tmp)
+    		{
+    			list.add(i);
+    			map.add(i);
+    		}
+			lastPathXML = f.getAbsolutePath();
+    		System.out.print(String.format("Successfully loaded from %s", f.getAbsoluteFile()));
+		}
+		catch (Exception ex)
+    	{
+    		System.err.print(ex.getMessage());
+    	}		
 	}
 
-    public void saveJson()
+    public void saveXml(File f)
     {
-				
+    	try
+		{
+			XMLIO io = new XMLIO();
+			io.writeAll(f, list.getALL());
+			lastPathJSON = f.getAbsolutePath();
+			lastPathXML = f.getAbsolutePath();
+    		System.out.print(String.format("Saved in %s", f.getAbsoluteFile()));
+		}
+		catch (Exception ex)
+    	{
+    		System.err.print(ex.getMessage());
+    	}	
+	}
+
+    public void loadJson(File f)
+    {
+    	try
+		{
+			JSONIO io = new JSONIO();
+			List<AbstractItem> tmp = io.readAll(f);
+			for (AbstractItem i : tmp)
+    		{
+    			list.add(i);
+    			map.add(i);
+    		}
+			lastPathJSON = f.getAbsolutePath();
+    		System.out.print(String.format("Successfully loaded from %s", f.getAbsoluteFile()));
+		}
+		catch (Exception ex)
+    	{
+    		System.err.print(ex.getMessage());
+    	}
+	}
+
+    public void saveJson(File f)
+    {
+		try
+		{
+			JSONIO io = new JSONIO();
+			io.writeAll(f, list.getALL());
+			lastPathJSON = f.getAbsolutePath();
+    		System.out.print(String.format("Saved in %s", f.getAbsoluteFile()));
+		}
+		catch (Exception ex)
+    	{
+    		System.err.print(ex.getMessage());
+    	}
+		
 	}
 
     public void loadFromTxt(File f)
@@ -71,7 +125,7 @@ public class AppController
     			list.add(i);
     			map.add(i);
     		}
-    		lastPath = f.getAbsolutePath();
+    		lastPathTxt = f.getAbsolutePath();
     		System.out.print(String.format("Successfully loaded from %s", f.getAbsolutePath()));
     		
     	}
@@ -87,7 +141,7 @@ public class AppController
     	{
     		TxtIO io = new TxtIO();
     		io.writeAll(f, list.getALL());
-    		lastPath = f.getAbsolutePath();
+    		lastPathTxt = f.getAbsolutePath();
     		System.out.print(String.format("Saved in %s", f.getAbsoluteFile()));
     		
     	}
@@ -113,8 +167,24 @@ public class AppController
 
     public void update()
     {
-    	File f = new File(lastPath);
-    	loadFromTxt(f);		
+    	if (!lastPathTxt.equals(null))
+    	{
+    		File f = new File(lastPathTxt);
+    		saveJson(f);
+    	}
+    	
+    	if (!lastPathJSON.equals(null))
+    	{
+    		File f = new File(lastPathJSON);
+    		saveJson(f);
+    	}
+    	
+    	if (!lastPathXML.equals(null))
+    	{
+    		File f = new File(lastPathXML);
+    		saveXml(f);
+    	}
+    	
 	}
 
     public void add(String res)
@@ -170,6 +240,8 @@ public class AppController
 			{
 				System.out.print("Incorrect Data!");
 			}
+			
+			update();
           
         }
 		catch (Exception ex)

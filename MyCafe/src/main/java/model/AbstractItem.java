@@ -1,13 +1,30 @@
 package main.java.model;
+
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import java.util.*;
 import java.text.*;
 
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = Cake.class, name = "cake"),
+    @JsonSubTypes.Type(value = Pie.class, name = "pie"),
+    @JsonSubTypes.Type(value = Cupcake.class, name = "cupcake")})
+
+@JacksonXmlRootElement(localName = "item")
 public abstract class AbstractItem implements Comparable<AbstractItem> {
+	@JacksonXmlProperty(localName = "id")
 	protected UUID id = UUID.randomUUID();
+	
+	@JacksonXmlProperty(localName = "name")
 	protected String name;
 	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+	@JacksonXmlProperty(localName = "productionDate")
 	protected Date productionDate;
 	
+	@JacksonXmlProperty(localName = "price")
 	protected double price;
 	
 	protected static final SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
@@ -34,6 +51,11 @@ public abstract class AbstractItem implements Comparable<AbstractItem> {
 
 	public double getPrice() { return price; }
 	public void setPrice(double price) { this.price = price; }
+	
+	public String getType()
+	{
+        return this.getClass().getSimpleName().toLowerCase();
+    }
 	
 	@Override
 	public String toString()

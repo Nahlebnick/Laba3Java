@@ -2,16 +2,20 @@ package main.java.model;
 
 import java.util.*;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 public class Cake extends AbstractItem
 {
-		private String type;
+		@JacksonXmlProperty(localName = "layers")
 		private int layers;
+		
+		@JacksonXmlProperty(localName = "numberOfServings")
 		private int numberOfServings;
+		
+		@JacksonXmlProperty(localName = "weight")
 		private double weight;
 		
 		// Getters/Setters
-		public String getType() { return type; }
-		public void setType(String type) { this.type = type; }
 
 		public int getLayers() { return layers; }
 		public void setLayers(int layers) { this.layers = layers; }
@@ -27,11 +31,10 @@ public class Cake extends AbstractItem
 	    	super();
 	    }
 	    
-	    public Cake(String name_, Date prodDate, double price_, String type,
+	    public Cake(String name_, Date prodDate, double price_,
 	    		int layers, int numberOfServings, double weight)
 	    {
 	    		super(name_, prodDate, price_);
-	    		this.type = type;
 	    		this.layers = layers;
 	    		this.numberOfServings = numberOfServings;
 	    		this.weight = weight;
@@ -41,7 +44,7 @@ public class Cake extends AbstractItem
 	    public String toString()
 	    {
 	    		String res = super.toString();
-	    		res += String.format(", type = %s, layers = %d, numbers of servings = %d, weight = %.1f", type, layers, numberOfServings, weight);
+	    		res += String.format(", layers = %d, numbers of servings = %d, weight = %.1f", layers, numberOfServings, weight);
 	    		return res;
 	    }
 		@Override
@@ -49,7 +52,7 @@ public class Cake extends AbstractItem
 		{
 			String[] values = line.split(";");
 	        
-	        if (values.length != 9 || !values[0].equals("Cake")) {
+	        if (values.length != 8 || !values[0].equals("Cake")) {
 	            System.err.println("Error: Incorrect format. Length: " + values.length + ", Type: " + values[0]);
 	            throw new Exception("Incorrect data format for Cake object");
 	        }
@@ -60,11 +63,11 @@ public class Cake extends AbstractItem
 	        
 	        double price_ = Double.parseDouble(values[4]);
 	        
-	        int layers_ = Integer.parseInt(values[6]);
+	        int layers_ = Integer.parseInt(values[5]);
 	        
-	        int num = Integer.parseInt(values[7]);
+	        int num = Integer.parseInt(values[6]);
 	        
-	        double w = Double.parseDouble(values[8]);
+	        double w = Double.parseDouble(values[7]);
 	        
 	        this.setId(id_);
 	        this.setName(values[2]);
@@ -72,8 +75,7 @@ public class Cake extends AbstractItem
 	        this.setPrice(price_);
 	        this.setLayers(layers_);
 	        this.setNumberOfServings(num);
-	        this.setWeight(w);
-	        this.setType(values[5]);  
+	        this.setWeight(w); 
 		}
 		@Override
 		public String toCSV() {
@@ -83,7 +85,6 @@ public class Cake extends AbstractItem
 		            name,
 		            String.valueOf(productionDate.getTime()),
 		            String.valueOf(price),
-		            type,
 		            String.valueOf(layers),
 		            String.valueOf(numberOfServings),
 		            String.valueOf(weight)
