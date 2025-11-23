@@ -1,9 +1,6 @@
 package main.java.app;
 
 import java.util.*;
-import java.io.*;
-import main.java.repository.*;
-import main.java.model.*;
 
 public class Menu
 {

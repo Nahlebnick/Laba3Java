@@ -33,7 +33,7 @@ public class Validator
 	    }
 	}
 	
-	public static void parseDate(String dateStr) throws IllegalArgumentException
+	public static Date parseDate(String dateStr) throws IllegalArgumentException
 	{
 	    if (dateStr == null || dateStr.trim().isEmpty())
 	    {
@@ -45,7 +45,7 @@ public class Validator
 	    try
 	    {
 	        sdf.setLenient(false);
-	        sdf.parse(trimmedDate);
+	        return sdf.parse(trimmedDate);
 	    }
 	    catch (ParseException e)
 	    {
@@ -53,7 +53,7 @@ public class Validator
 	    }
 	}
 	
-	public static void parseInteger(String number, String fieldName) throws IllegalArgumentException {
+	public static int parseInteger(String number, String fieldName) throws IllegalArgumentException {
 	    if (number == null || number.trim().isEmpty()) {
 	        throw new IllegalArgumentException(fieldName + " cannot be null or empty");
 	    }
@@ -66,6 +66,7 @@ public class Validator
 	        {
 	            throw new IllegalArgumentException(fieldName + " cannot be negative: " + value);
 	        }
+	        return value;
 	    }
 	    catch (NumberFormatException e)
 	    {
@@ -73,7 +74,7 @@ public class Validator
 	    }
 	}
 
-	public static void parseDouble(String number, String fieldName) throws IllegalArgumentException {
+	public static double parseDouble(String number, String fieldName) throws IllegalArgumentException {
 	    if (number == null || number.trim().isEmpty())
 	    {
 	        throw new IllegalArgumentException(fieldName + " cannot be null or empty");
@@ -87,6 +88,7 @@ public class Validator
 	        {
 	            throw new IllegalArgumentException(fieldName + " cannot be less than " + 0 + ": " + value);
 	        }
+	        return value;
 	    }
 	    catch (NumberFormatException e)
 	    {

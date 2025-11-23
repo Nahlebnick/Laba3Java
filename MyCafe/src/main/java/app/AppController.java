@@ -1,6 +1,7 @@
 package main.java.app;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,24 +21,34 @@ public class AppController
     
     public void listAll()
     {
-        for (var item : list.getALL()) {
+        for (var item : list.getALL())
+        {
             System.out.println(item.toString());
         }
         if (list.getALL().isEmpty())
             System.out.println("List is empty!");
     }
 
-    public void zipTxt()
+    public void zipTxt(String src, String zip)
     {
-				
+		try
+		{
+			ZipUtil.zipFile(src, zip);
+			System.out.print(String.format("Successfully zipped %s in %s", src, zip));
+		} catch (IOException e)
+		{
+			System.err.print(e.getMessage());
+		}
 	}
 
-    public void decryptTxt() {
+    public void decryptTxt()
+    {
 		// TODO Auto-generated method stub
 		
 	}
 
-    public void encryptTxt() {
+    public void encryptTxt()
+    {
 		// TODO Auto-generated method stub
 		
 	}
@@ -188,65 +199,55 @@ public class AppController
 	}
 
     public void add(String res)
-    {
-		try 
-		{			
-			String what = res.split(";")[0];			
-			if (what.equals("Cake"))
-			{
-			    Cake c = new Cake();
-			    try {
-			        c.fromCSV(res);
-			        list.add(c);
-			        map.add(c);
-			        System.out.println("Successfully added Cake to list");
-			    } catch (Exception e) {
-			        System.err.println("Failed to create Cake from CSV: " + e.getMessage());
-			        e.printStackTrace();
-			    }
-			}
-			
-			else if (what.equals("Pie"))
-			{
-			    Pie c = new Pie();
-			    try {
-			        c.fromCSV(res);
-			        list.add(c);
-			        map.add(c);
-			        System.out.println("Successfully added Pie to list");
-			    } catch (Exception e) {
-			        System.err.println("Failed to create Pie from CSV: " + e.getMessage());
-			        e.printStackTrace();
-			    }
-			}
-			else if (what.equals("Cupcake"))
-			{
-			    Cupcake c = new Cupcake();
-			    try
-			    {
-			        c.fromCSV(res);
-			        list.add(c);
-			        map.add(c);
-			        System.out.println("Successfully added Cupcake to list");
-			    }
-			    catch (Exception e)
-			    {
-			        System.err.println("Failed to create Cupcake from CSV: " + e.getMessage());
-			        e.printStackTrace();
-			    }
-			}
-			
-			else
-			{
-				System.out.print("Incorrect Data!");
-			}
-			
-			update();
-          
-        }
-		catch (Exception ex)
+    {	
+    	String what = res.split(";")[0];			
+		if (what.equals("Cake"))
 		{
-			System.out.print(ex.getMessage());
+		    Cake c = new Cake();
+		    try
+		    {
+		        c.fromCSV(res);
+		        list.add(c);
+		        map.add(c);
+		        System.out.println("Successfully added Cake to list");
+		    }
+		    catch (Exception e)
+		    {
+		        System.err.println("Failed to create Cake from CSV: " + e.getMessage());
+		    }
 		}
+		
+		else if (what.equals("Pie"))
+		{
+		    Pie c = new Pie();
+		    try
+		    {
+		        c.fromCSV(res);
+		        list.add(c);
+		        map.add(c);
+		        System.out.println("Successfully added Pie to list");
+		    }
+		    catch (Exception e)
+		    {
+		        System.err.println("Failed to create Pie from CSV: " + e.getMessage());
+		    }
+		}
+		else if (what.equals("Cupcake"))
+		{
+		    Cupcake c = new Cupcake();
+		    try
+		    {
+		        c.fromCSV(res);
+		        list.add(c);
+		        map.add(c);
+		        System.out.println("Successfully added Cupcake to list");
+		    }
+		    catch (Exception e)
+		    {
+		        System.err.println("Failed to create Cupcake from CSV: " + e.getMessage());
+		    }
+		}
+		
+		update();	
     }
 }

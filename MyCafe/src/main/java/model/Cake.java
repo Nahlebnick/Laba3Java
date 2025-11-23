@@ -78,7 +78,8 @@ public class Cake extends AbstractItem
 	        this.setWeight(w); 
 		}
 		@Override
-		public String toCSV() {
+		public String toCSV()
+		{
 			String res = String.join(";",
 					"Cake",
 		            id.toString(),

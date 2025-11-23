@@ -29,7 +29,7 @@ public class Main {
 				case 11: app.loadXml(getFile(true)); break;
 				case 12: app.encryptTxt(); break;
 				case 13: app.decryptTxt(); break;
-				case 14: app.zipTxt(); break;
+				case 14: app.zipTxt(getFile(true).getPath(), getFile(false).getPath()); break;
 		        case 0: System.out.print("Good bye!"); return;
 	            default: System.out.println("Unknown"); 
 			}
@@ -94,14 +94,11 @@ public class Main {
 	                res = String.join(";", what, id, name, dt, sp, flavour, crustType);
 	                return res;
 	            }
-	            else
-	            {
-	            	System.err.print("Incorrect data try again: \n");
-	            }
             }
             catch (Exception e)
             {
             	System.err.print(e.getMessage() + "\n");
+            	System.out.print("Try again: " + "\n");
             }
 		} 
 	}
@@ -109,32 +106,41 @@ public class Main {
 	private static String getID()
 	{	
 		String res = new String();
-		try {			
-			System.out.print("Enter id of the element to delete: ");
-			res = sc.nextLine();
-			Validator.parseID(res);	
-		}
-		catch (Exception e)
+		while (true)
 		{
-			System.err.println("Error: " + e.getMessage() + ". Please try again.");
-		}
-		return res;
-		
+			try {			
+				System.out.print("Enter id of the element to delete: ");
+				res = sc.nextLine();
+				Validator.parseID(res);
+				return res;
+			}
+			catch (Exception e)
+			{
+				System.err.println("Error: " + e.getMessage() + ". Please try again.");
+			}
+		}	
 	}
+	
 	private static File getFile(boolean shouldExist)
 	{
 		while (true)
 		{
 			System.out.print("Enter file path: ");
 			String path = sc.nextLine();
-			try {
+			try
+			{
 	            File file = Validator.parseFile(path, shouldExist);
-	            if (file != null) {
+	            if (file != null)
+	            {
 	                return file;
-	            } else {
+	            }
+	            else
+	            {
 	                System.err.println("Invalid file path. Please try again.");
 	            }
-	        } catch (Exception e) {
+	        }
+			catch (Exception e)
+			{
 	            System.err.println("Error: " + e.getMessage() + ". Please try again.");
 	        }
 		}
