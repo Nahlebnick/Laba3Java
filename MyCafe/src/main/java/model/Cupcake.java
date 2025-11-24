@@ -63,7 +63,7 @@ public class Cupcake extends AbstractItem
         this.setName(values[2]);
         this.setProductionDate(dt);
         this.setPrice(price_);
-        this.setFlavour(flavour);
+        this.setFlavour(flavour_);
         this.setWeight(w); 
 	}
 
@@ -74,7 +74,7 @@ public class Cupcake extends AbstractItem
 				"Cupcake",
 	            id.toString(),
 	            name,
-	            String.valueOf(productionDate.getTime()),
+	            sdf.format(productionDate),
 	            String.valueOf(price),
 	            flavour,
 	            String.valueOf(weight)

@@ -20,7 +20,7 @@ public class Menu
 	{
         while (true) {
             System.out.println(
-                "\n1) List all\n2) Add\n3) Update\n4) Delete\n" +
+                "\n1) List all\n2) Add\n4) Delete\n" +
                 "5) Sort by price\n6) Save TXT\n7) Load TXT\n" +
                 "8) Save JSON\n9) Load JSON\n" +
                 "10) Save XML\n11) Load XML\n" +

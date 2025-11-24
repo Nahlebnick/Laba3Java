@@ -18,7 +18,6 @@ public class Main {
 			{
 				case 1: app.listAll(); break;
 				case 2: app.add(getInfoAboutCake()); break;
-				case 3: app.update(); break;
 				case 4: app.delete(getID()); break;
 				case 5: app.sortByPrice(); break;
 				case 6: app.saveTxt(getFile(false)); break;
@@ -27,8 +26,8 @@ public class Main {
 				case 9: app.loadJson(getFile(true)); break;
 				case 10: app.saveXml(getFile(false)); break;
 				case 11: app.loadXml(getFile(true)); break;
-				case 12: app.encryptTxt(); break;
-				case 13: app.decryptTxt(); break;
+				case 12: app.encryptTxt(getFile(true).getPath(), getFile(false).getPath()); break;
+				case 13: app.decryptTxt(getFile(true).getPath(), getFile(false).getPath()); break;
 				case 14: app.zipTxt(getFile(true).getPath(), getFile(false).getPath()); break;
 		        case 0: System.out.print("Good bye!"); return;
 	            default: System.out.println("Unknown"); 

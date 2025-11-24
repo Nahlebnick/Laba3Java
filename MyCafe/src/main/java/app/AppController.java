@@ -35,22 +35,37 @@ public class AppController
 		{
 			ZipUtil.zipFile(src, zip);
 			System.out.print(String.format("Successfully zipped %s in %s", src, zip));
-		} catch (IOException e)
+		}
+		catch (IOException e)
+		{
+			
+		}
+	}
+
+    public void decryptTxt(String src, String enc)
+    {
+		try
+		{
+			CryptoUtil.decrypt(src, enc);
+			System.out.print(String.format("%s was successfully decrypted in %s", src, enc));
+		}
+		catch (Exception e)
 		{
 			System.err.print(e.getMessage());
 		}
 	}
 
-    public void decryptTxt()
+    public void encryptTxt(String src, String enc)
     {
-		// TODO Auto-generated method stub
-		
-	}
-
-    public void encryptTxt()
-    {
-		// TODO Auto-generated method stub
-		
+		try
+		{
+			CryptoUtil.encrypt(src, enc);			
+			System.out.print(String.format("%s was successfully encrypted in %s", src, enc));
+		}
+		catch (Exception e)
+		{
+			System.err.print(e.getMessage());
+		}
 	}
 
     public void loadXml(File f)
@@ -61,8 +76,10 @@ public class AppController
 			List<AbstractItem> tmp = io.readAll(f);
 			for (AbstractItem i : tmp)
     		{
-    			list.add(i);
-    			map.add(i);
+			if (!i.equals(null))
+    			{
+    				list.add(i); map.add(i);
+    			}
     		}
 			lastPathXML = f.getAbsolutePath();
     		System.out.print(String.format("Successfully loaded from %s", f.getAbsoluteFile()));
@@ -97,8 +114,10 @@ public class AppController
 			List<AbstractItem> tmp = io.readAll(f);
 			for (AbstractItem i : tmp)
     		{
-    			list.add(i);
-    			map.add(i);
+			if (!i.equals(null))
+    			{
+    				list.add(i); map.add(i);
+    			}
     		}
 			lastPathJSON = f.getAbsolutePath();
     		System.out.print(String.format("Successfully loaded from %s", f.getAbsoluteFile()));
@@ -133,8 +152,11 @@ public class AppController
     		List<AbstractItem> tmp = io.readAll(f);
     		for (AbstractItem i : tmp)
     		{
-    			list.add(i);
-    			map.add(i);
+    			if (!i.equals(null))
+    			{
+    				list.add(i); map.add(i);
+    			}
+    			
     		}
     		lastPathTxt = f.getAbsolutePath();
     		System.out.print(String.format("Successfully loaded from %s", f.getAbsolutePath()));
@@ -178,24 +200,23 @@ public class AppController
 
     public void update()
     {
-    	if (!lastPathTxt.equals(null))
-    	{
-    		File f = new File(lastPathTxt);
-    		saveJson(f);
-    	}
-    	
-    	if (!lastPathJSON.equals(null))
-    	{
-    		File f = new File(lastPathJSON);
-    		saveJson(f);
-    	}
-    	
-    	if (!lastPathXML.equals(null))
-    	{
-    		File f = new File(lastPathXML);
-    		saveXml(f);
-    	}
-    	
+	    	if (!lastPathTxt.equals(null))
+	    	{
+	    		File f = new File(lastPathTxt);
+	    		saveJson(f);
+	    	}
+	    	
+	    	if (!lastPathJSON.equals(null))
+	    	{
+	    		File f = new File(lastPathJSON);
+	    		saveJson(f);
+	    	}
+	    	
+	    	if (!lastPathXML.equals(null))
+	    	{
+	    		File f = new File(lastPathXML);
+	    		saveXml(f);
+	    	}    	
 	}
 
     public void add(String res)
@@ -248,6 +269,6 @@ public class AppController
 		    }
 		}
 		
-		update();	
+		//update();	
     }
 }
